@@ -1,0 +1,18 @@
+CNN Baseline (PyTorch) — use_smote=True
+Best config: lr=1e-02, batch_size=128, dropout=0.2, weight_decay=0.001
+============================================================
+
+Test loss        : 0.2313
+Test accuracy    : 0.9454
+Test F1 (macro)  : 0.7104
+
+                precision    recall  f1-score   support
+
+    N (Normal)     0.9853    0.9564    0.9706     13552
+S (Supravent.)     0.6737    0.6139    0.6424       417
+  V (Ventric.)     0.8235    0.9631    0.8879      1085
+    F (Fusion)     0.2258    0.6942    0.3408       121
+
+      accuracy                         0.9454     15175
+     macro avg     0.6771    0.8069    0.7104     15175
+  weighted avg     0.9591    0.9454    0.9507     15175
