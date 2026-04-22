@@ -1,5 +1,6 @@
 
-# Applies SMOTE (Synthetic Minority Oversampling TEchnique) to ONLY the
+
+# Applies SMOTE (Synthetic Minority Oversampling TEchnique) to ONLY the 
 # training set to balance the heavy class imbalance in the MIT-BIH dataset.
 
 # CRITICAL: SMOTE is applied AFTER the train/val/test split and ONLY to the
@@ -8,6 +9,9 @@
 
 # Input  : X_train.npy, y_train.npy  (from split.py)
 # Output : X_train_smote.npy, y_train_smote.npy
+
+# Requirements: numpy, imbalanced-learn
+
 
 import os
 import numpy as np
@@ -76,6 +80,7 @@ def main():
     print(f"    {PROCESSED_DIR}/y_train_smote.npy")
     print("\n  Validation/test sets are UNCHANGED (use original X_val / X_test)")
     print("=" * 60)
+
 
 if __name__ == "__main__":
     main()
