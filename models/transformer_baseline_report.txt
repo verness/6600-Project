@@ -1,0 +1,18 @@
+Transformer Baseline (PyTorch) — use_smote=True
+Best config: lr=3e-03, batch_size=128, d_model=64, n_layers=3, patch_size=5, dropout=0.1, weight_decay=0.0
+============================================================
+
+Test loss        : 0.0758
+Test accuracy    : 0.9761
+Test F1 (macro)  : 0.8577
+
+                precision    recall  f1-score   support
+
+    N (Normal)     0.9954    0.9804    0.9879     13552
+S (Supravent.)     0.6987    0.9065    0.7891       417
+  V (Ventric.)     0.9430    0.9604    0.9516      1085
+    F (Fusion)     0.5856    0.8760    0.7020       121
+
+      accuracy                         0.9761     15175
+     macro avg     0.8057    0.9308    0.8577     15175
+  weighted avg     0.9803    0.9761    0.9775     15175
