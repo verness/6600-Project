@@ -1,6 +1,6 @@
 
 
-# Applies SMOTE (Synthetic Minority Oversampling TEchnique) to ONLY the 
+# Applies SMOTE (Synthetic Minority Oversampling Technique) to ONLY the 
 # training set to balance the heavy class imbalance in the MIT-BIH dataset.
 
 # CRITICAL: SMOTE is applied AFTER the train/val/test split and ONLY to the
