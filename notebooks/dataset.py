@@ -63,9 +63,9 @@ from collections import Counter
 from typing import Literal
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-# 1. Signal augmentation helpers  (operate on raw 1-D numpy waveforms)
-# ─────────────────────────────────────────────────────────────────────────────
+
+# 1. Signal augmentation helpers  
+
 
 def augment_waveform(wave: np.ndarray, rng: np.random.Generator) -> np.ndarray:
     """
