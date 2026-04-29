@@ -125,11 +125,40 @@ This pipeline generates the following files in Data/processed/:
 
 We will implement:
 
-* CNN baseline
-- CNN baseline model served as the starting point for classification because convolutional neural networks are a natural fit for image-based inputs. Instead of using raw ECG waveforms directly, each heartbeat was transformed into a spectrogram, a 2D time-frequency representation that captures how signal frequencies change over time. This allows the ECG beat to be treated like an image, where important cardiac patterns become visually distinguishable.
+### 1. CNN Baseline
 
-* Transformer baseline
-* Hybrid CNN + Transformer model
+The CNN served as our starting point because convolutional networks are a natural fit for image-based inputs. Each heartbeat was converted into a **spectrogram** — a 2D time-frequency representation generated via the Short-Time Fourier Transform (STFT) — where clinically important patterns (QRS energy at 10–40 Hz, P/T waves below 10 Hz) become spatially separable. A secondary metadata branch processes extracted beat-level features (RR intervals, heart rate, amplitude), and both branches are fused before classification.
+
+**Architecture:** 3× Conv2d blocks (32→64→128 filters, kernel sizes 7→5→3) + AdaptiveAvgPool2d → metadata MLP (6→32) → concatenation (160-dim) → dense classifier → 4 classes
+
+**Key design choices:**
+- Decreasing kernel size captures broad QRS patterns first, then fine morphological detail
+- AdaptiveAvgPool2d produces a fixed-length feature vector regardless of input resolution
+- Hyperparameters selected via random search over 15 configurations (LR, batch size, dropout, weight decay)
+
+### 2. Transformer Baseline
+
+The Transformer operates directly on **raw waveform sequences** (250 samples), bypassing the spectrogram conversion entirely. Self-attention enables every time sample to attend to every other, allowing the model to learn long-range dependencies — such as the relationship between P-wave morphology and QRS timing — that local convolutional kernels cannot easily capture.
+
+**Architecture:** Positional encoding → multi-head self-attention encoder (4 layers, 8 heads) → [CLS] token classification head → 4 classes
+
+**Key design choices:**
+- Raw waveform input avoids STFT computational overhead
+- Attention maps provide interpretability (which beat regions drive classification)
+- Z-score normalization removes patient-level baseline drift
+
+### 3. Hybrid CNN-Transformer
+
+The hybrid model combines the CNN's spatial feature extraction with the Transformer's global reasoning. An **EfficientNet-B0** backbone (pretrained on ImageNet, first 4 stages frozen) extracts spatial tokens from spectrograms, which are then processed by a Transformer encoder alongside a metadata token and a learnable [CLS] token.
+
+**Architecture:** EfficientNet-B0 backbone → patch token projection (256-dim) + metadata MLP token + [CLS] token → Transformer encoder (4 layers, 8 heads) → classification head → 4 classes
+
+**Key design choices:**
+- Pretrained backbone provides transferable low-level features (edges, textures) from natural images
+- Differential learning rates (lower for CNN, higher for Transformer)
+- Focal Loss (γ=2.0) to focus training on hard-to-classify minority beats
+- Linear warmup + cosine decay learning rate schedule
+
 
 ---
 
@@ -146,6 +175,15 @@ We will implement:
 When does a Transformer outperform a CNN in ECG arrhythmia classification?
 
 ---
+
+## References
+
+- Moody, G. B., & Mark, R. G. (2001). The impact of the MIT-BIH Arrhythmia Database. *IEEE Engineering in Medicine and Biology Magazine*, 20(3), 45–50.
+- Khan, F., Yu, X., Yuan, Z., & Rehman, A. U. (2023). ECG classification using 1-D convolutional deep residual neural network. *PLoS ONE*, 18(4), e0284791.
+- Mukhoti, J., Kulharia, V., Sanyal, A., Golodetz, S., Torr, P. H. S., & Dokania, P. K. (2020). Calibrating deep neural networks using focal loss. *NeurIPS 2020*.
+- Devlin, J., Chang, M.-W., Lee, K., & Toutanova, K. (2019). BERT: Pre-training of deep bidirectional transformers for language understanding. *NAACL-HLT 2019*.
+- Chawla, N. V., Bowyer, K. W., Hall, L. O., & Kegelmeyer, W. P. (2002). SMOTE: Synthetic minority over-sampling technique. *JAIR*, 16, 321–357.
+- Tan, M., & Le, Q. V. (2019). EfficientNet: Rethinking model scaling for convolutional neural networks. *ICML 2019*.
 
 
 ## Team
