@@ -73,21 +73,50 @@ This pipeline generates the following files in Data/processed/:
 
 ```
 .
-├── Data/
-│   ├── mit-bih-arrhythmia-database-1.0.0/  # Raw MIT-BIH dataset (not tracked)
-│   ├── processed/                          # Generated .npy splits (not tracked)
-├── notebooks/                              # EDA and noise inspection
+├── checkpoints/                            # Saved model checkpoints and training logs
+│   ├── best_model.pt
+│   ├── last_model.pt
+│   └── training_log.csv
+│
+├── checkpoints(colab)/                     # Checkpoints generated from Google Colab runs
+│
+├── Data/                                   # Raw and processed ECG datasets
+│   ├── mit-bih-arrhythmia-database-1.0.0/  # Original MIT-BIH dataset
+│   └── processed/                          # Cleaned / transformed data files
+│
+├── models/                                 # Trained models, reports, and visual outputs
+│   ├── cnn_baseline.pt
+│   ├── transformer_baseline.pt
+│   ├── cnn_baseline_confusion.png
+│   ├── transformer_baseline_confusion.png
+│   ├── transformer_attention.png
+│   ├── tuning_results.csv
+│   ├── transformer_tuning_results.csv
+│   ├── tuning_heatmap.png
+│   ├── transformer_tuning_heatmap.png
+│   ├── smote_before_after.png
+│   └── classification_report_table.png
+│
+├── notebooks/                              # EDA, experimentation, and model training notebooks
 │   ├── 01_inspect_data.ipynb
-│   └── eda.ipynb
+│   ├── cnn_model.ipynb
+│   ├── eda.ipynb
+│   ├── hybrid_cnn_transformer.ipynb
+│   ├── hybrid_train.ipynb
+│   ├── hybrid_training_colab.ipynb
+│   ├── smote.ipynb
+│   └── transformer_model.ipynb
+│
 ├── src/
-│   ├── data/                               # Data pipeline scripts
-│   │   ├── preprocess.py                   # Extraction and cleaning
-│   │   └── split.py                        # Stratified train/val/test split
-│   ├── models/                             # Model architectures
-│   ├── training/                           # Training loops and scripts
-│   └── evaluation/                         # Performance metrics
-├── .gitignore                              # Prevents large data/junk from being pushed
-└── README.md                               # Project documentation
+│   └── data/                               # Data preprocessing pipeline scripts
+│       ├── preprocess.py
+│       ├── smote.py
+│       └── split.py
+│
+├── Archive.zip                             # Archived project files
+├── pipeline.html                           # Exported project pipeline visualization
+├── .gitignore
+└── README.md
 ```
 
 ---
