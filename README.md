@@ -126,6 +126,8 @@ This pipeline generates the following files in Data/processed/:
 We will implement:
 
 * CNN baseline
+- CNN baseline model served as the starting point for classification because convolutional neural networks are a natural fit for image-based inputs. Instead of using raw ECG waveforms directly, each heartbeat was transformed into a spectrogram, a 2D time-frequency representation that captures how signal frequencies change over time. This allows the ECG beat to be treated like an image, where important cardiac patterns become visually distinguishable.
+
 * Transformer baseline
 * Hybrid CNN + Transformer model
 
@@ -134,7 +136,7 @@ We will implement:
 ## Evaluation
 
 * Accuracy
-* F1-score (important due to class imbalance)
+* F1-score / Marco F1-score (important due to class imbalance)
 * Confusion Matrix
 
 ---
