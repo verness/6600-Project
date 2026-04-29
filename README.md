@@ -176,6 +176,20 @@ When does a Transformer outperform a CNN in ECG arrhythmia classification?
 
 ---
 
+## Results
+
+On the held-out test set, the three models compare as follows:
+
+| Model | Test accuracy | Macro F1 |
+|---|---|---|
+| CNN baseline (spectrogram + metadata) | 0.9902 | 0.9304 |
+| Transformer baseline (raw 1D waveform) | 0.9761 | 0.8577 |
+| Hybrid CNN-Transformer | 0.9862 | 0.8971 |
+
+When the CNN and Transformer are compared on the same raw 1D input, the Transformer improves macro F1 from 0.7104 to 0.8577, with the largest gains on the Supraventricular and Fusion classes. Once the CNN is given spectrograms and patient metadata, it pulls ahead on overall macro F1, while the hybrid sits in between and does best on Supraventricular beats specifically.
+
+---
+
 ## References
 
 - Moody, G. B., & Mark, R. G. (2001). The impact of the MIT-BIH Arrhythmia Database. *IEEE Engineering in Medicine and Biology Magazine*, 20(3), 45–50.
